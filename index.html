@@ -212,7 +212,6 @@
     </div>
   </div>
 
-  <iframe id="yt-frame" width="1" height="1" frameborder="0" allow="autoplay" src=""></iframe>
 </div>
 
 <script>
@@ -224,32 +223,30 @@
     particlesEl.appendChild(p);
   }
 
+  const audio = new Audio('คู่ชีวิต - COCKTAIL「Official MV (Cut Version)」.mp3');
+  audio.loop = true;
   let playing = false;
 
   function openCard() {
     document.getElementById('splash').style.display = 'none';
-    const card = document.getElementById('card');
-    card.style.display = 'block';
-    startMusic();
-  }
-
-  function startMusic() {
-    const frame = document.getElementById('yt-frame');
-    frame.src = 'https://www.youtube.com/embed/N9bashij_7c?autoplay=1&loop=1&playlist=3mYVyVY-lU4';
+    document.getElementById('card').style.display = 'block';
+    audio.play();
     playing = true;
     document.getElementById('playIcon').textContent = '⏸';
     document.querySelectorAll('.bar').forEach(b => b.classList.add('playing'));
   }
 
   function togglePlay() {
-    const frame = document.getElementById('yt-frame');
     if (playing) {
-      frame.src = '';
+      audio.pause();
       document.getElementById('playIcon').textContent = '▶';
       document.querySelectorAll('.bar').forEach(b => b.classList.remove('playing'));
       playing = false;
     } else {
-      startMusic();
+      audio.play();
+      document.getElementById('playIcon').textContent = '⏸';
+      document.querySelectorAll('.bar').forEach(b => b.classList.add('playing'));
+      playing = true;
     }
   }
 
