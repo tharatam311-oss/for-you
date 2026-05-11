@@ -1,0 +1,259 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.wrap {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: #0e0608;
+  position: relative; overflow: hidden;
+  font-family: 'Sarabun', sans-serif;
+}
+
+.particles { position: absolute; inset: 0; pointer-events: none; }
+.particle {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: #f4a0bb; opacity: 0;
+  animation: float-up var(--dur) ease-in infinite;
+  animation-delay: var(--delay);
+}
+@keyframes float-up {
+  0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.5; } 90% { opacity: 0.15; }
+  100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+}
+
+/* SPLASH SCREEN */
+.splash {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+  animation: fade-in 1s ease both;
+}
+@keyframes fade-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.splash-heart { font-size: 64px; animation: heartbeat 1.4s ease-in-out infinite; display: block; margin-bottom: 1.2rem; }
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); } 14% { transform: scale(1.18); }
+  28% { transform: scale(1); } 42% { transform: scale(1.12); } 70% { transform: scale(1); }
+}
+
+.splash-title {
+  font-size: 15px; color: rgba(255,255,255,0.5);
+  letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.open-btn {
+  background: linear-gradient(135deg, #e8607a, #c0395a);
+  border: none; border-radius: 50px;
+  padding: 16px 40px; cursor: pointer;
+  color: #fff; font-size: 17px; font-weight: 600;
+  font-family: 'Sarabun', sans-serif;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 30px rgba(232,96,122,0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  animation: pulse-btn 2s ease-in-out infinite;
+}
+@keyframes pulse-btn {
+  0%,100% { box-shadow: 0 8px 30px rgba(232,96,122,0.4); }
+  50% { box-shadow: 0 8px 40px rgba(232,96,122,0.7); }
+}
+.open-btn:hover { transform: scale(1.05); }
+.open-btn:active { transform: scale(0.97); }
+
+.splash-hint { margin-top: 1rem; font-size: 12px; color: rgba(255,255,255,0.25); }
+
+/* CARD */
+.card {
+  display: none; position: relative; z-index: 10;
+  max-width: 460px; width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(244,160,187,0.25);
+  border-radius: 24px; padding: 2rem 1.8rem;
+  backdrop-filter: blur(12px); text-align: center;
+  animation: card-in 0.8s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes card-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+
+.petal-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 1rem; }
+.petal { font-size: 18px; animation: sway 3s ease-in-out infinite; animation-delay: calc(var(--i) * 0.4s); }
+@keyframes sway { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+
+.love-label { font-size: 11px; letter-spacing: 4px; color: #f4a0bb; text-transform: uppercase; margin-bottom: 0.5rem; }
+.big-heart { font-size: 48px; line-height: 1; margin-bottom: 0.8rem; display: block; animation: heartbeat 1.4s ease-in-out infinite; }
+.msg-eng { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 0.4rem; font-style: italic; }
+.msg-th { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.82); line-height: 1.9; margin-bottom: 1.2rem; }
+
+.divider { display: flex; align-items: center; gap: 10px; margin: 1rem 0; }
+.divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(244,160,187,0.4), transparent); }
+
+.photo-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, rgba(244,160,187,0.15), rgba(232,96,122,0.2));
+  border: 1px solid rgba(244,160,187,0.4);
+  border-radius: 50px; padding: 10px 24px; cursor: pointer;
+  color: #f4c0d0; font-size: 14px; font-weight: 500;
+  transition: all 0.2s ease; margin-bottom: 1.2rem;
+  font-family: 'Sarabun', sans-serif;
+}
+.photo-btn:hover { background: linear-gradient(135deg, rgba(244,160,187,0.3), rgba(232,96,122,0.35)); transform: translateY(-2px); color: #fff; }
+
+.music-player {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(244,160,187,0.2);
+  border-radius: 16px; padding: 0.9rem 1.1rem;
+}
+.music-label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.4rem; }
+.music-title { font-size: 13px; color: #f4a0bb; font-weight: 600; margin-bottom: 0.7rem; }
+
+.play-btn {
+  background: linear-gradient(135deg, #e8607a, #c0395a);
+  border: none; border-radius: 50%;
+  width: 40px; height: 40px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 0.7rem; font-size: 16px; color: #fff;
+  transition: transform 0.15s ease;
+}
+.play-btn:hover { transform: scale(1.08); }
+
+.bars { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 18px; }
+.bar { width: 4px; border-radius: 2px; background: #f4a0bb; height: 4px; }
+.bar.playing { animation: bar-dance var(--spd) ease-in-out infinite alternate; }
+@keyframes bar-dance { from { height: 4px; } to { height: var(--h); } }
+
+.footer-hearts { margin-top: 1.2rem; font-size: 11px; color: rgba(255,255,255,0.25); }
+
+/* PHOTO OVERLAY */
+.photo-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+}
+.photo-overlay.open { display: flex; }
+.photo-inner { position: relative; }
+.photo-inner img { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; display: block; }
+.close-btn {
+  position: absolute; top: -14px; right: -14px;
+  background: #e8607a; border: none; border-radius: 50%;
+  width: 32px; height: 32px; color: #fff; font-size: 20px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+#yt-frame { display: none; }
+</style>
+
+<div class="wrap" id="wrap">
+  <div class="particles" id="particles"></div>
+
+  <!-- SPLASH -->
+  <div class="splash" id="splash">
+    <span class="splash-heart">💌</span>
+    <p class="splash-title">มีของพิเศษสำหรับเธอ</p>
+    <button class="open-btn" onclick="openCard()">
+      แตะเพื่อเปิด 💕
+    </button>
+    <p class="splash-hint">เปิดเสียงด้วยนะ 🔊</p>
+  </div>
+
+  <!-- CARD -->
+  <div class="card" id="card">
+    <div class="petal-row">
+      <span class="petal" style="--i:0">🌸</span>
+      <span class="petal" style="--i:1">🌺</span>
+      <span class="petal" style="--i:2">🌸</span>
+      <span class="petal" style="--i:3">🌹</span>
+      <span class="petal" style="--i:4">🌸</span>
+    </div>
+
+    <p class="love-label">With all my heart</p>
+    <span class="big-heart">❤️</span>
+    <p class="msg-eng">I love you</p>
+
+    <div class="divider"><div class="divider-line"></div><span>🌸</span><div class="divider-line"></div></div>
+
+    <p class="msg-th">
+      เค้ารักเธอมากๆ เลยนะ<br>
+      เค้ายอมทุกอย่างเพื่อให้เธอมีความสุขคับบ ❤️
+    </p>
+
+    <div class="divider"><div class="divider-line"></div><span>✨</span><div class="divider-line"></div></div>
+
+    <button class="photo-btn" onclick="openPhoto()">
+      🖼️ ดูรูปพิเศษจากเค้า
+    </button>
+
+    <div class="music-player">
+      <p class="music-label">♪ เพลงพิเศษสำหรับเธอ</p>
+      <p class="music-title">เพลงพิเศษจากใจ 🎵</p>
+      <button class="play-btn" id="playBtn" onclick="togglePlay()">
+        <span id="playIcon">⏸</span>
+      </button>
+      <div class="bars" id="bars">
+        <div class="bar playing" style="--h:14px;--spd:0.5s"></div>
+        <div class="bar playing" style="--h:18px;--spd:0.7s"></div>
+        <div class="bar playing" style="--h:12px;--spd:0.4s"></div>
+        <div class="bar playing" style="--h:20px;--spd:0.6s"></div>
+        <div class="bar playing" style="--h:10px;--spd:0.8s"></div>
+        <div class="bar playing" style="--h:16px;--spd:0.45s"></div>
+        <div class="bar playing" style="--h:14px;--spd:0.65s"></div>
+      </div>
+    </div>
+
+    <p class="footer-hearts">made with 💕 just for you</p>
+  </div>
+
+  <!-- Photo Overlay -->
+  <div class="photo-overlay" id="photoOverlay" onclick="closePhotoOutside(event)">
+    <div class="photo-inner">
+      <button class="close-btn" onclick="closePhoto()">×</button>
+      <img src="https://drive.google.com/thumbnail?id=1XsrN83yILWR6r9Cmm-LtE9p0HhbJnIdO&sz=w1200" alt="รูปพิเศษ" onerror="this.src='https://drive.google.com/uc?export=view&id=1XsrN83yILWR6r9Cmm-LtE9p0HhbJnIdO'">
+    </div>
+  </div>
+
+  <iframe id="yt-frame" width="1" height="1" frameborder="0" allow="autoplay" src=""></iframe>
+</div>
+
+<script>
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;--dur:${6+Math.random()*8}s;--delay:${Math.random()*8}s;--drift:${(Math.random()-0.5)*80}px`;
+    particlesEl.appendChild(p);
+  }
+
+  let playing = false;
+
+  function openCard() {
+    document.getElementById('splash').style.display = 'none';
+    const card = document.getElementById('card');
+    card.style.display = 'block';
+    startMusic();
+  }
+
+  function startMusic() {
+    const frame = document.getElementById('yt-frame');
+    frame.src = 'https://www.youtube.com/embed/N9bashij_7c?autoplay=1&loop=1&playlist=N9bashij_7c';
+    playing = true;
+    document.getElementById('playIcon').textContent = '⏸';
+    document.querySelectorAll('.bar').forEach(b => b.classList.add('playing'));
+  }
+
+  function togglePlay() {
+    const frame = document.getElementById('yt-frame');
+    if (playing) {
+      frame.src = '';
+      document.getElementById('playIcon').textContent = '▶';
+      document.querySelectorAll('.bar').forEach(b => b.classList.remove('playing'));
+      playing = false;
+    } else {
+      startMusic();
+    }
+  }
+
+  function openPhoto() { document.getElementById('photoOverlay').classList.add('open'); }
+  function closePhoto() { document.getElementById('photoOverlay').classList.remove('open'); }
+  function closePhotoOutside(e) { if (e.target === document.getElementById('photoOverlay')) closePhoto(); }
+</script>
